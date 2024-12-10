@@ -1,0 +1,27 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+nav h1 {
+    margin: 0;
+    padding: 10px 0;
+}
+.login-container, .dashboard {
+    max-width: 400px;
+    margin: auto;
+}
+.login-container form, .dashboard form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.login-container input, .dashboard input, .dashboard select, .dashboard button {
+    padding: 5px;
+    border: 1px solid #ccc;
+}
+button {
+    background: #007BFF; color: #fff; border: none; cursor: pointer;
+}
+button:hover {
+    background: #0056b3;
+}

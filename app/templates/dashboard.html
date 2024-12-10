@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="dashboard">
+    <h2>Bienvenido, Admin</h2>
+
+    <section>
+        <h3>Registrar Cliente</h3>
+        <form id="cliente-form">
+            <input type="text" name="nombre" placeholder="Nombre" required>
+            <input type="text" name="telefono" placeholder="Teléfono" required>
+            <input type="text" name="colonia" placeholder="Colonia">
+            <button type="submit">Crear Cliente</button>
+        </form>
+        <div id="cliente-message"></div>
+    </section>
+
+    <section>
+        <h3>Agregar Transacción</h3>
+        <form id="transaccion-form">
+            <input type="number" name="id_cliente" placeholder="ID Cliente" required>
+            <input type="number" name="monto" placeholder="Monto" required>
+            <select name="tipo">
+                <option value="+">Compra (+)</option>
+                <option value="-">Pago (-)</option>
+            </select>
+            <button type="submit">Agregar Transacción</button>
+        </form>
+        <div id="transaccion-message"></div>
+    </section>
+
+    <section>
+        <h3>Consultar Saldo</h3>
+        <form id="saldo-form">
+            <input type="number" name="id_cliente_saldo" placeholder="ID Cliente" required>
+            <button type="submit">Ver Saldo</button>
+        </form>
+        <div id="saldo-result"></div>
+    </section>
+
+    <button id="logout-btn">Cerrar Sesión</button>
+</div>
+
+<script>
+document.getElementById('cliente-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const nombre = e.target.nombre.value;
+    const telefono = e.target.telefono.value;
+    const colonia = e.target.colonia.value;
+    const res = await crearCliente({nombre, telefono, colonia});
+    document.getElementById('cliente-message').innerText = res.success ? "Cliente creado!" : res.error;
+});
+
+document.getElementById('transaccion-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const id_cliente = e.target.id_cliente.value;
+    const monto = e.target.monto.value;
+    const tipo = e.target.tipo.value;
+    const res = await agregarTransaccion(id_cliente, {monto, tipo});
+    document.getElementById('transaccion-message').innerText = res.success ? "Transacción agregada!" : res.error;
+});
+
+document.getElementById('saldo-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const id_cliente = e.target.id_cliente_saldo.value;
+    const res = await verSaldo(id_cliente);
+    document.getElementById('saldo-result').innerText = res.success ? "Saldo: " + res.saldo : res.error;
+});
+
+document.getElementById('logout-btn').addEventListener('click', () => {
+    logout();
+    window.location.href = "/";
+});
+</script>
+{% endblock %}
